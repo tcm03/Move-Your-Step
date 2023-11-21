@@ -52,7 +52,7 @@ def breadth_first_search(school_map):
     dist[start[0]][start[1]][0] = 0
     goal = (-1, -1, -1)
     while Q.qsize() > 0:
-        if goal != (-1, -1):
+        if goal != (-1, -1, -1):
             break
         x, y, keyset = Q.get()
         for x_offset, y_offset in [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
@@ -76,7 +76,12 @@ def breadth_first_search(school_map):
                     continue
             if school_map[next_x][next_y][0] == "D":
                 # check if the key is available
-                if keyset & (1 << (int(school_map[next_x][next_y][1:] - 1))) == 0:
+                num = int(school_map[next_x][next_y][1:])
+                # this door has no corresponding key
+                if num > num_keys:
+                    continue
+                # this door has a corresponding key, but the key is not available
+                if keyset & (1 << (num-1)) == 0:
                     continue
             new_keyset = keyset
             if school_map[next_x][next_y][0] == "K":
@@ -114,8 +119,8 @@ def main():
         d, path = answer
         print(f"Shortest path length: {d}")
         print("Path:")
-        for x, y in path:
-            print(f"({x}, {y})")
+        for x, y, keyset in path:
+            print(f"({x}, {y}, {bin(keyset)})")
     else:
         print("No solution.")
 
