@@ -16,12 +16,12 @@ def breadth_first_search(school_map):
         and (xi, yi) and (xi+1, yi+1) are adjacent cells in the path.
         If there is no path, return None.
     """
-    N = len(school_map)
-    M = len(school_map[0])
+    N = len(school_map) # number of rows
+    M = len(school_map[0]) # number of columns
     for i in range(N):
         for j in range(M):
             if school_map[i][j][0] == "A":
-                start = (i, j)
+                start = (i, j) # start cell
     Q = Queue()
     Q.put(start)
     trace = []
