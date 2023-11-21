@@ -42,16 +42,31 @@ def breadth_first_search(school_map):
         if goal != (-1, -1):
             break
         x, y = Q.get()
-        for x_offset, y_offset in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
+        for x_offset, y_offset in [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
             next_x, next_y = x + x_offset, y + y_offset
+            # invalid next cell
             if next_x < 0 or next_x >= N or next_y < 0 or next_y >= M:
                 continue
+            # next cell is a wall
             if school_map[next_x][next_y] == "-1":
                 continue
+            # in case of a diagonal move
+            if abs(next_x - x) + abs(next_y - y) == 2:
+                # check if neighboring cells are walls
+                valid = True
+                for u in [min(x, next_x), max(x, next_x)]:
+                    for v in [min(y, next_y), max(y, next_y)]:
+                        if school_map[u][v] == "-1":
+                            valid = False
+                            break
+                if not valid:
+                    continue
+            # next cell is already visited
             if dist[next_x][next_y] != INF:
                 continue
             dist[next_x][next_y] = dist[x][y] + 1
             trace[next_x][next_y] = (x, y)
+            # the destination is here!
             if school_map[next_x][next_y][0] == "T":
                 goal = (next_x, next_y)
                 break
