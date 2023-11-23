@@ -48,6 +48,7 @@ for:
     doors that don't have corresponding keys in keyset are as obstacles
     doors that have corresponding keys in keyset become blank
     go to all cells that are reachable
+    add key(s) to keyset
     if no progress is made:
         break
 all unreachable cells are turned to obstacles (even the target cell)
