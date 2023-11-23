@@ -33,3 +33,29 @@ N, M <= 200
 - agents <= 10
 - keys <= 10
 - floors <= 10
+
+
+**Anomalies:**
+(1) Some doors don't have corresponding keys.
+(2) Some keys are fully surrounded by obstacles that cannot be obtained.
+(3) We need to open door i to get key j, but we also need to open door j to get key i.
+(4) There is not path to the target cell.
+
+**Normalization algorithm**:
+```
+keyset = []
+for:
+    doors that don't have corresponding keys in keyset are as obstacles
+    doors that have corresponding keys in keyset become blank
+    go to all cells that are reachable
+    if no progress is made:
+        break
+all unreachable cells are turned to obstacles (even the target cell)
+re-number keys and doors
+```
+
+Time and memory complexity: O(NM)
+Results:
+- No keys are unachievable.
+- No doors cannot be opened.
+- There is at least one path from the start cell to the target cell.
