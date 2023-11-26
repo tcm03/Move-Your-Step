@@ -3,9 +3,9 @@ import time
 from random import choice
 import pygame
 from custom_parser import read_input
-from bfs import breadth_first_search
+from solver import breadth_first_search
 
-map_game = read_input("input1-level3.txt")
+map_game = read_input("input.txt")
 
 n_floor = len(map_game)
 
@@ -79,7 +79,7 @@ d, path = breadth_first_search(map_game)
 N = len(map_game[0])
 M = len(map_game[0][1])
 
-RES = WIDTH, HEIGHT = M * TILE + 200, N * TILE
+RES = WIDTH, HEIGHT = M * TILE + 210, N * TILE
 cols, rows = M, N
 
 pygame.init()
@@ -94,7 +94,12 @@ grid_cells = every_map[0]
 dodai = len(path)
 print(d)
 
+print(len(path[0][3]))
 
+get_key = pygame.image.load("./keyget.png")
+get_key = pygame.transform.scale(get_key,(20,20))
+lost_key = pygame.image.load("./keylost.png")
+lost_key = pygame.transform.scale(lost_key,(20,20))
 
 
 i = 0
@@ -116,8 +121,19 @@ while True:
         num_floor = font.render(f'Floor: {path[dodai-1][0]+1}', True, (0, 0, 0))
         sc.blit(num_floor, (M * TILE + 10, 10))
 
-        num_step = font.render(f'Number of steps: {dodai-1}', True, (0, 0, 0))
+        num_step = font.render(f'numbers step: {dodai-1}', True, (0, 0, 0))
         sc.blit(num_step, (M * TILE + 10, 40))
+
+        for num_key in range(len(path[dodai-1][3])):
+            dai = M * TILE + 10 + num_key * 20
+            cao = 70
+            if dai + 20 > WIDTH:
+                dai -= 200 * int(num_key / 10)
+                cao += 30 * int(num_key / 10)
+            if path[dodai-1][3][num_key] == '0':
+                sc.blit(lost_key, (dai, cao))
+            if path[dodai - 1][3][num_key] == '1':
+                sc.blit(get_key, (dai, cao))
 
         # num_step = font.render(f'numbers step: {path[dodai-1][3]}', True, (0, 0, 0))
         # sc.blit(num_step, (M * TILE + 10, 70))
@@ -125,14 +141,26 @@ while True:
         num_floor = font.render(f'Floor: {path[i][0]+1}', True, (0, 0, 0))
         sc.blit(num_floor, (M * TILE + 10, 10))
 
-        num_step = font.render(f'Number of steps: {i}', True, (0, 0, 0))
+        num_step = font.render(f'numbers step: {i}', True, (0, 0, 0))
         sc.blit(num_step, (M * TILE + 10, 40))
 
-        # num_step = font.render(f'numbers key: {path[i][3]}', True, (0, 0, 0))
-        # sc.blit(num_step, (M * TILE + 10, 70))
+        for num_key in range(len(path[i][3])):
+            dai = M * TILE + 10 + num_key * 20
+            cao = 70
+            if dai + 20 > WIDTH:
+                dai -= 200 * int(num_key / 10)
+                cao += 30 * int(num_key / 10)
+            if path[i][3][num_key] == '0':
+                sc.blit(lost_key, (dai, cao))
+            if path[i][3][num_key] == '1':
+                sc.blit(get_key, (dai, cao))
+
+
+
+
 
     [cell.draw(0, sc, font) for cell in grid_cells]
 
     pygame.display.flip()
-    time.sleep(0.2)
+    time.sleep(0.1)
     clock.tick(30)
