@@ -49,7 +49,7 @@ def breadth_first_search(school_map):
                 sub_arr.append(INF)
             arr.append(sub_arr)
         dist.append(arr)
-    dist[start[0]][start[1]][0] = 0
+    dist[start[0]][start[1]][start[2]] = 0
     goal = (-1, -1, -1)
     while Q.qsize() > 0:
         if goal != (-1, -1, -1):
