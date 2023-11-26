@@ -3,9 +3,9 @@ import time
 from random import choice
 import pygame
 from custom_parser import read_input
-from solver import breadth_first_search
+from bfs import breadth_first_search
 
-map_game = read_input("input.txt")
+map_game = read_input("input1-level3.txt")
 
 n_floor = len(map_game)
 
@@ -116,7 +116,7 @@ while True:
         num_floor = font.render(f'Floor: {path[dodai-1][0]+1}', True, (0, 0, 0))
         sc.blit(num_floor, (M * TILE + 10, 10))
 
-        num_step = font.render(f'numbers step: {dodai-1}', True, (0, 0, 0))
+        num_step = font.render(f'Number of steps: {dodai-1}', True, (0, 0, 0))
         sc.blit(num_step, (M * TILE + 10, 40))
 
         # num_step = font.render(f'numbers step: {path[dodai-1][3]}', True, (0, 0, 0))
@@ -125,7 +125,7 @@ while True:
         num_floor = font.render(f'Floor: {path[i][0]+1}', True, (0, 0, 0))
         sc.blit(num_floor, (M * TILE + 10, 10))
 
-        num_step = font.render(f'numbers step: {i}', True, (0, 0, 0))
+        num_step = font.render(f'Number of steps: {i}', True, (0, 0, 0))
         sc.blit(num_step, (M * TILE + 10, 40))
 
         # num_step = font.render(f'numbers key: {path[i][3]}', True, (0, 0, 0))
@@ -134,5 +134,5 @@ while True:
     [cell.draw(0, sc, font) for cell in grid_cells]
 
     pygame.display.flip()
-    time.sleep(0.1)
+    time.sleep(0.2)
     clock.tick(30)
