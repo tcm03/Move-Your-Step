@@ -122,7 +122,10 @@ def breadth_first_search(school_map):
         d = dist[goal[0]][goal[1]][goal[2]][goal[3]]
         path = []
         while goal != (-1, -1, -1, -1):
-            path.append(goal)
+            # Convert goal[3] to a string representation of the keyset
+            keyset_str = bin(goal[3])[2:].zfill(num_keys)
+            keyset_str = keyset_str[::-1]
+            path.append((goal[0], goal[1], goal[2], keyset_str))
             goal = trace[goal[0]][goal[1]][goal[2]][goal[3]]
         path.reverse()
         return d, path
@@ -137,10 +140,11 @@ def main():
     answer = breadth_first_search(school_map)
     if answer:
         d, path = answer
+        print(f"Number of keys: {len(path[0][3])}")
         print(f"Shortest path length: {d}")
         print("Path:")
         for f, x, y, keyset in path:
-            print(f"({f}, {x}, {y}, {bin(keyset)})")
+            print(f"({f}, {x}, {y}, {keyset})")
     else:
         print("No solution.")
 
