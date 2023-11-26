@@ -12,8 +12,12 @@ def breadth_first_search(school_map):
         school_map: a 3D array of strings, representing the school map with multiple floors
     Returns:
         a tuple (d, path), where d is the shortest path length and path is a list of coordinates
-        [(x1, y1), (x2, y2), ..., (xk, yk)] such that (x1, y1) is the start, (xk, yk) is the goal,
-        and (xi, yi) and (xi+1, yi+1) are adjacent cells in the path.
+        [(f1, x1, y1, s1), (f2, x2, y2, s2), ..., (fk, xk, yk, sk)] such that (f1, x1, y1, s1) is the start, 
+        (fk, xk, yk, sk) is the goal, (fi, xi, yi, si) and (fi+1, xi+1, yi+1, si+1) are adjacent cells in the path, and:
+        - fi: floor number
+        - xi: x-coordinate
+        - yi: y-coordinate
+        - si: keyset (represented as an binary integer)
         If there is no path, return None.
     """
     D = len(school_map)
