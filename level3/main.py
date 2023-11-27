@@ -3,9 +3,9 @@ import time
 from random import choice
 import pygame
 from custom_parser import read_input
-from solver import breadth_first_search
+from bfs import breadth_first_search
 
-map_game = read_input("input.txt")
+map_game = read_input("level3\input1-level3.txt")
 
 n_floor = len(map_game)
 
@@ -107,9 +107,9 @@ print(d)
 
 print(len(path[0][3]))
 
-get_key = pygame.image.load("./keyget.png")
+get_key = pygame.image.load("level3\keyget.png")
 get_key = pygame.transform.scale(get_key, (20, 20))
-lost_key = pygame.image.load("./keylost.png")
+lost_key = pygame.image.load("level3\keylost.png")
 lost_key = pygame.transform.scale(lost_key, (20, 20))
 
 scrollx = 0

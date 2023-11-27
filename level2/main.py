@@ -3,9 +3,9 @@ import time
 from random import choice
 import pygame
 from custom_parser import read_input
-from solver import breadth_first_search
+from bfs import breadth_first_search
 
-map_game = read_input("input.txt")
+map_game = read_input("level2\input1-level2.txt")
 
 N = len(map_game)
 M = len(map_game[0])
@@ -76,9 +76,9 @@ class Cell:
 
 
 grid_cells = [Cell(col, row, map_game[row][col]) for row in range(rows) for col in range(cols)]
-get_key = pygame.image.load("./keyget.png")
+get_key = pygame.image.load("level2\keyget.png")
 get_key = pygame.transform.scale(get_key,(20,20))
-lost_key = pygame.image.load("./keylost.png")
+lost_key = pygame.image.load("level2\keylost.png")
 lost_key = pygame.transform.scale(lost_key,(20,20))
 
 dodai = len(path)
