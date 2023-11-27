@@ -5,7 +5,7 @@ import pygame
 from custom_parser import read_input
 from bfs import breadth_first_search
 
-map_game = read_input("input.txt")
+map_game = read_input("input1-level3.txt")
 
 n_floor = len(map_game)
 

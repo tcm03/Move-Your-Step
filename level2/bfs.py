@@ -105,7 +105,9 @@ def breadth_first_search(school_map):
         d = dist[goal[0]][goal[1]][goal[2]]
         path = []
         while goal != (-1, -1, -1):
-            path.append(goal)
+            keyset_str = bin(goal[2])[2:].zfill(num_keys)
+            keyset_str = keyset_str[::-1]
+            path.append((goal[0], goal[1], keyset_str))
             goal = trace[goal[0]][goal[1]][goal[2]]
         path.reverse()
         return d, path
