@@ -1,3 +1,4 @@
+import math
 import sys
 from queue import PriorityQueue
 from custom_parser import *
@@ -6,8 +7,8 @@ from custom_parser import *
 INF = 1000000000
 
 
-def evaluate_manhattan_distance(current, goal):
-    return abs(current[0]-goal[0]) + abs(current[1]-goal[1])
+def evaluate_euclidean_distance(current, goal):
+    return math.sqrt((current[0]-goal[0])**2 + (current[1]-goal[1])**2)
 
 
 def next_move(school_map, current):
@@ -69,7 +70,7 @@ def a_star(school_map):
     frontier = PriorityQueue()
 
     # add starting node into frontier
-    frontier.put((evaluate_manhattan_distance(current=start, goal=goal), start))
+    frontier.put((evaluate_euclidean_distance(current=start, goal=goal), start))
 
     while not frontier.empty():
 
@@ -94,7 +95,7 @@ def a_star(school_map):
 
             # update path and heuristic
             dist_next = dist[x][y] + 1
-            heuristic_next = evaluate_manhattan_distance(current=(next_x, next_y), goal=goal)
+            heuristic_next = evaluate_euclidean_distance(current=(next_x, next_y), goal=goal)
             dist[next_x][next_y] = dist_next
             trace[next_x][next_y] = (x, y)
 
