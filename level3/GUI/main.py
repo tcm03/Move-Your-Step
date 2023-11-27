@@ -3,7 +3,7 @@ import time
 from random import choice
 import pygame
 from custom_parser import read_input
-from solver import breadth_first_search
+from bfs import breadth_first_search
 
 map_game = read_input("input.txt")
 

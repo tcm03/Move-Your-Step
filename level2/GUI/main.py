@@ -5,7 +5,7 @@ import pygame
 from custom_parser import read_input
 from bfs import breadth_first_search
 
-map_game = read_input("level2\input1-level2.txt")
+map_game = read_input("input.txt")
 
 N = len(map_game)
 M = len(map_game[0])
@@ -13,7 +13,8 @@ M = len(map_game[0])
 d, path = breadth_first_search(map_game)
 
 TILE = 25
-RES = WIDTH, HEIGHT = M * TILE , N * TILE
+
+RES = WIDTH, HEIGHT = M * TILE + 210, N * TILE
 cols, rows = M, N
 
 pygame.init()
@@ -74,7 +75,10 @@ class Cell:
 
 
 grid_cells = [Cell(col, row, map_game[row][col]) for row in range(rows) for col in range(cols)]
-
+get_key = pygame.image.load("./keyget.png")
+get_key = pygame.transform.scale(get_key,(20,20))
+lost_key = pygame.image.load("./keylost.png")
+lost_key = pygame.transform.scale(lost_key,(20,20))
 
 dodai = len(path)
 
@@ -94,6 +98,40 @@ while True:
             grid_cells[path[i][1] + path[i][0] * cols].color_intense *= 0.5
 
         i += 1
+
+    if i >= dodai:
+
+        num_step = font.render(f'numbers step: {dodai - 1}', True, (0, 0, 0))
+        sc.blit(num_step, (M * TILE + 10, 40))
+
+        for num_key in range(len(path[dodai - 1][2])):
+            dai = M * TILE + 10 + num_key * 20
+            cao = 70
+            if dai + 20 > WIDTH:
+                dai -= 200 * int(num_key / 10)
+                cao += 30 * int(num_key / 10)
+            if path[dodai - 1][2][num_key] == '0':
+                sc.blit(lost_key, (dai, cao))
+            if path[dodai - 1][2][num_key] == '1':
+                sc.blit(get_key, (dai, cao))
+
+        # num_step = font.render(f'numbers step: {path[dodai-1][3]}', True, (0, 0, 0))
+        # sc.blit(num_step, (M * TILE + 10, 70))
+    else:
+
+        num_step = font.render(f'numbers step: {i}', True, (0, 0, 0))
+        sc.blit(num_step, (M * TILE + 10, 40))
+
+        for num_key in range(len(path[i][2])):
+            dai = M * TILE + 10 + num_key * 20
+            cao = 70
+            if dai + 20 > WIDTH:
+                dai -= 200 * int(num_key / 10)
+                cao += 30 * int(num_key / 10)
+            if path[i][2][num_key] == '0':
+                sc.blit(lost_key, (dai, cao))
+            if path[i][2][num_key] == '1':
+                sc.blit(get_key, (dai, cao))
 
     [cell.draw(0) for cell in grid_cells]
 
