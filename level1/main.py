@@ -3,16 +3,17 @@ import time
 from random import choice
 import pygame
 from custom_parser import read_input
-from bfs import breadth_first_search
+from dfs import depth_first_search
 
 map_game = read_input("level1\input1-level1.txt")
 
 N = len(map_game)
 M = len(map_game[0])
 
-d, path = breadth_first_search(map_game)
+d, path = depth_first_search(map_game)
 
 TILE = 25
+FONTSIZE = 15
 
 RES = WIDTH, HEIGHT = M * TILE + 210 if (M * TILE + 210) < 1350 else 1350, N * TILE if N*TILE < 700 else 700
 cols, rows = M, N
@@ -22,7 +23,7 @@ sc = pygame.display.set_mode(RES)
 pygame.display.set_caption("Move Your Step")
 
 clock = pygame.time.Clock()
-font = pygame.font.SysFont('sans', 15, True)
+font = pygame.font.SysFont('sans', FONTSIZE, True)
 
 
 class Cell:
@@ -77,9 +78,11 @@ class Cell:
 grid_cells = [Cell(col, row, map_game[row][col]) for row in range(rows) for col in range(cols)]
 
 
-dodai = len(path)
+dodai = 0
+if path is not None:
+    dodai = len(path)
 
-print(dodai)
+
 
 scrollx = 0
 scrolly = 0
@@ -93,17 +96,25 @@ while True:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
-                if (scrollx+1) * 25 < WIDTH and WIDTH > 1350:
-                    scrollx += 1
+                scrollx += 1
             if event.key == pygame.K_LEFT:
-                if scrollx > 0:
-                    scrollx -= 1
-            if event.key == pygame.K_DOWN and HEIGHT > 700:
-                if (scrolly+1) * 25 < HEIGHT:
-                    scrolly += 1
+                scrollx -= 1
+            if event.key == pygame.K_DOWN:
+                scrolly += 1
             if event.key == pygame.K_UP:
-                if scrolly > 0:
-                    scrolly -= 1
+                scrolly -= 1
+            if event.key == pygame.K_z:
+                if TILE >= 3:
+                    TILE -= 2
+                    if FONTSIZE >= 2:
+                        FONTSIZE -= 1
+                    font = pygame.font.SysFont('sans', FONTSIZE, True)
+            if event.key == pygame.K_x:
+                if TILE <= 23 :
+                    TILE += 2
+                    if FONTSIZE <=14:
+                        FONTSIZE += 1
+                    font = pygame.font.SysFont('sans', FONTSIZE, True)
 
     if i < dodai:
         if not grid_cells[path[i][1] + path[i][0] * cols].visited:
@@ -122,6 +133,10 @@ while True:
 
         num_step = font.render(f'number of steps: {i}', True, (0, 0, 0))
         sc.blit(num_step, (scrollx*25 + M * TILE + 10, scrolly*25 + 40))
+    
+    if path is None:
+        solve_or_not = font.render('There are not any paths', True, (0, 0, 0))
+        sc.blit(solve_or_not, (scrollx*25 + M * TILE + 10, scrolly*25 + 10))
 
 
     [cell.draw(scrollx*25, scrolly*25) for cell in grid_cells]

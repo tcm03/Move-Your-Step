@@ -117,7 +117,7 @@ def breadth_first_search(school_map):
                 break
             Q.put((next_f, next_x, next_y, new_keyset))
     if goal == (-1, -1, -1, -1):
-        return None
+        return None,None
     else:
         d = dist[goal[0]][goal[1]][goal[2]][goal[3]]
         path = []

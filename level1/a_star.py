@@ -105,7 +105,7 @@ def a_star(school_map):
 
             frontier.put((dist_next+heuristic_next, (next_x, next_y)))
 
-    return None
+    return None,None
 
 
 def main():

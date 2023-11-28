@@ -21,6 +21,7 @@ def map_read(current):
 
 
 TILE = 25
+FONTSIZE = 15
 
 
 class Cell:
@@ -98,19 +99,19 @@ sc = pygame.display.set_mode(RES)
 pygame.display.set_caption("Move Your Step")
 
 clock = pygame.time.Clock()
-font = pygame.font.SysFont('sans', 15, True)
+font = pygame.font.SysFont('sans', FONTSIZE, True)
 
 grid_cells = every_map[0]
 
-dodai = len(path)
-print(d)
-
-print(len(path[0][3]))
 
 get_key = pygame.image.load("level3\keyget.png")
 get_key = pygame.transform.scale(get_key, (20, 20))
 lost_key = pygame.image.load("level3\keylost.png")
 lost_key = pygame.transform.scale(lost_key, (20, 20))
+
+dodai = 0
+if path is not None:
+    dodai = len(path)
 
 scrollx = 0
 scrolly = 0
@@ -124,18 +125,27 @@ while True:
             sys.exit()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
-                if (scrollx + 1) * 25 < WIDTH and WIDTH > 1350:
-                    scrollx += 1
+                scrollx += 1
             if event.key == pygame.K_LEFT:
-                if scrollx > 0:
-                    scrollx -= 1
-            if event.key == pygame.K_DOWN and HEIGHT > 700:
-                if (scrolly + 1) * 25 < HEIGHT:
-                    scrolly += 1
+                scrollx -= 1
+            if event.key == pygame.K_DOWN:
+                scrolly += 1
             if event.key == pygame.K_UP:
-                if scrolly > 0:
-                    scrolly -= 1
-    if i < dodai:
+                scrolly -= 1
+            if event.key == pygame.K_z:
+                if TILE >= 3:
+                    TILE -= 2
+                    if FONTSIZE >= 2:
+                        FONTSIZE -= 1
+                    font = pygame.font.SysFont('sans', FONTSIZE, True)
+                    
+            if event.key == pygame.K_x:
+                if TILE <= 23 :
+                    TILE += 2 
+                    if FONTSIZE <=14:
+                        FONTSIZE += 1
+                    font = pygame.font.SysFont('sans', FONTSIZE, True)
+    if i < dodai and path is not None:
         grid_cells = every_map[path[i][0]]
         if not grid_cells[path[i][2] + path[i][1] * cols].visited:
             grid_cells[path[i][2] + path[i][1] * cols].visited = True
@@ -143,7 +153,7 @@ while True:
             grid_cells[path[i][2] + path[i][1] * cols].color_intense *= 0.5
         i += 1
 
-    if i >= dodai:
+    if i >= dodai and path is not None:
         num_floor = font.render(f'Floor: {path[dodai - 1][0] + 1}', True, (0, 0, 0))
         sc.blit(num_floor, (scrollx * 25 + M * TILE + 10, scrolly * 25 + 10))
 
@@ -163,7 +173,7 @@ while True:
 
         # num_step = font.render(f'numbers step: {path[dodai-1][3]}', True, (0, 0, 0))
         # sc.blit(num_step, (M * TILE + 10, 70))
-    else:
+    elif path is not None:
         num_floor = font.render(f'Floor: {path[i][0] + 1}', True, (0, 0, 0))
         sc.blit(num_floor, (scrollx * 25 + M * TILE + 10, scrolly * 25 + 10))
 
@@ -180,6 +190,10 @@ while True:
                 sc.blit(lost_key, (scrollx * 25 + dai, scrolly * 25 + cao))
             if path[i][3][num_key] == '1':
                 sc.blit(get_key, (scrollx * 25 + dai, scrolly * 25 + cao))
+                
+    if path is None:
+        solve_or_not = font.render('There are not any paths', True, (0, 0, 0))
+        sc.blit(solve_or_not, (scrollx*25 + M * TILE + 10, scrolly*25 + 10))
 
     [cell.draw(scrollx * 25, scrolly * 25, sc, font) for cell in grid_cells]
 

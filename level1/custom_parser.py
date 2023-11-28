@@ -23,8 +23,10 @@ def read_input(filename):
                     sys.exit(f"At line: {line}\nInvalid token: {s}")
                 arr.append(s)
             if len(arr) != M:
+                print(arr)
                 sys.exit(f"Invalid number of tokens in line: {line}")
             location.append(arr)
         if len(location) != N:
+            print(location)
             sys.exit(f"Invalid number of lines: {len(location)}")
         return location
