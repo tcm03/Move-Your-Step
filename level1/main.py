@@ -5,10 +5,11 @@ import pygame
 from custom_parser import read_input
 from dfs import depth_first_search
 
-map_game = read_input("level1\input1-level1.txt")
+map_game = read_input("../input/input1-level1.txt")
 
 N = len(map_game)
 M = len(map_game[0])
+
 
 d, path = depth_first_search(map_game)
 
