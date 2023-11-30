@@ -199,15 +199,18 @@ def level3_play(check):
             num_step = font.render(f'number of steps: {dodai}', True, (0, 0, 0))
             sc.blit(num_step, (scrollx * 25 + M * TILE + 10, scrolly * 25 + 40))
             
+            point = font.render(f"Points: {100-dodai}", True, (0, 0, 0))
+            sc.blit(point, (scrollx*25 + M * TILE + 10, scrolly*25 + 70))
+            
             memory_record = font.render(f"memory max: {round(peak / (1024 * 1024),3)} MB", True, (0, 0, 0))
-            sc.blit(memory_record, (scrollx*25 + M * TILE + 10, scrolly*25 + 70))
+            sc.blit(memory_record, (scrollx*25 + M * TILE + 10, scrolly*25 + 100))
             
             time_consume = font.render(f'time: {round((time_end - time_start).total_seconds() * 1000,3)} milliseconds', True, (0, 0, 0))
-            sc.blit(time_consume, (scrollx*25 + M * TILE + 10, scrolly*25 + 100))
+            sc.blit(time_consume, (scrollx*25 + M * TILE + 10, scrolly*25 + 130))
 
             for num_key in range(len(path[dodai - 1][3])):
                 dai = M * TILE + 10 + num_key * 20
-                cao = 130
+                cao = 160
                 if dai + 20 > WIDTH:
                     dai -= 200 * int(num_key / 10)
                     cao += 30 * int(num_key / 10)

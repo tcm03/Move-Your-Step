@@ -176,11 +176,14 @@ def level1_play(check):
             num_step = font.render(f'number of step: {dodai}', True, (0, 0, 0))
             sc.blit(num_step, (scrollx*25 + M * TILE + 10, scrolly*25 + 40))
             
+            point = font.render(f"Points: {100-dodai}", True, (0, 0, 0))
+            sc.blit(point, (scrollx*25 + M * TILE + 10, scrolly*25 + 70))
+            
             memory_record = font.render(f"memory max: {round(peak / (1024 * 1024),3)} MB", True, (0, 0, 0))
-            sc.blit(memory_record, (scrollx*25 + M * TILE + 10, scrolly*25 + 70))
+            sc.blit(memory_record, (scrollx*25 + M * TILE + 10, scrolly*25 + 100))
             
             time_consume = font.render(f'time: {round((time_end - time_start).total_seconds() * 1000,3)} milliseconds', True, (0, 0, 0))
-            sc.blit(time_consume, (scrollx*25 + M * TILE + 10, scrolly*25 + 100))
+            sc.blit(time_consume, (scrollx*25 + M * TILE + 10, scrolly*25 + 130))
 
         else:
 
