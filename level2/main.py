@@ -4,8 +4,16 @@ from random import choice
 import pygame
 from custom_parser import read_input
 from bfs import breadth_first_search
+from tkinter import filedialog
 
-map_game = read_input("level2\input2.txt")
+
+def openFile():
+    filepath = filedialog.askopenfilename(initialdir=".\\",title="Choose the file",filetypes= (("text files","*.txt"),("all files","*.*")))
+    return filepath
+
+filepath = openFile()
+
+map_game = read_input(filepath)
 
 N = len(map_game)
 M = len(map_game[0])
@@ -21,6 +29,7 @@ cols, rows = M, N
 pygame.init()
 sc = pygame.display.set_mode(RES)
 pygame.display.set_caption("Move Your Step")
+
 
 
 clock = pygame.time.Clock()
@@ -63,7 +72,7 @@ class Cell:
                 text = font.render(self.text, True, (0, 0, 255))
                 sc.blit(text, (distance + x + TILE / 2 - text.get_size()[0] / 2,distancey + y + TILE / 2 - text.get_size()[1] / 2))
             elif self.text[0] == 'K':
-                text = font.render(self.text, True, (0, 255, 0))
+                text = font.render(self.text, True, (165, 42, 42))
                 sc.blit(text, (distance + x + TILE / 2 - text.get_size()[0] / 2,distancey + y + TILE / 2 - text.get_size()[1] / 2))
             elif self.text[0] == 'D':
                 if not self.visited:
@@ -100,20 +109,19 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 scrollx += 1
-            if event.key == pygame.K_LEFT:
+            elif event.key == pygame.K_LEFT:
                 scrollx -= 1
-            if event.key == pygame.K_DOWN:
+            elif event.key == pygame.K_DOWN:
                 scrolly += 1
-            if event.key == pygame.K_UP:
+            elif event.key == pygame.K_UP:
                 scrolly -= 1
-            if event.key == pygame.K_z:
+            elif event.key == pygame.K_z:
                 if TILE >= 3:
                     TILE -= 2
                     if FONTSIZE >= 2:
                         FONTSIZE -= 1
-                    font = pygame.font.SysFont('sans', FONTSIZE, True)
-                    
-            if event.key == pygame.K_x:
+                    font = pygame.font.SysFont('sans', FONTSIZE, True)      
+            elif event.key == pygame.K_x:
                 if TILE <= 23 :
                     TILE += 2 
                     if FONTSIZE <=14:
@@ -169,4 +177,5 @@ while True:
 
     pygame.display.flip()
     time.sleep(0.1)
-    clock.tick(30)
+    clock.tick(60)
+
