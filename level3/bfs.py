@@ -1,6 +1,5 @@
 from queue import Queue
-from custom_parser import *
-import sys
+
 
 INF = 1000000000
 
@@ -130,23 +129,3 @@ def breadth_first_search(school_map):
         path.reverse()
         return d, path
 
-
-def main():
-    if len(sys.argv) < 2:
-        sys.exit("Please enter the input file name.")
-    elif len(sys.argv) > 2:
-        sys.exit("Too many arguments.")
-    school_map = read_input(sys.argv[1])
-    answer = breadth_first_search(school_map)
-    if answer:
-        d, path = answer
-        print(f"Number of keys: {len(path[0][3])}")
-        print(f"Shortest path length: {d}")
-        print("Path:")
-        for f, x, y, keyset in path:
-            print(f"({f}, {x}, {y}, {keyset})")
-    else:
-        print("No solution.")
-
-if __name__ == "__main__":
-    main()

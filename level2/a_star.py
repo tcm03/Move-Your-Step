@@ -1,7 +1,7 @@
 import math
 import sys
 from queue import PriorityQueue
-from custom_parser import *
+
 
 
 INF = 1000000000
@@ -133,24 +133,3 @@ def a_star(school_map):
             frontier.put((dist_next+heuristic_next, (next_x, next_y, next_key_set)))
 
     return None, None
-
-
-def main():
-    if len(sys.argv) < 2:
-        sys.exit("Please enter the input file name.")
-    elif len(sys.argv) > 2:
-        sys.exit("Too many arguments.")
-    school_map = read_input(sys.argv[1])
-    answer = a_star(school_map)
-    if answer:
-        d, path = answer
-        print(f"Shortest path length: {d}")
-        print("Path:")
-        for x, y in path:
-            print(f"({x}, {y})")
-    else:
-        print("No solution.")
-
-
-if __name__ == "__main__":
-    main()
