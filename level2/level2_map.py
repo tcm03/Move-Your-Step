@@ -1,12 +1,16 @@
+import datetime
 import sys
 import time
 from random import choice
+import tracemalloc
 import pygame
 from tkinter import filedialog
 from level2.a_star import a_star
 from level2.bfs import breadth_first_search
 
 from level2.custom_parser import read_input
+from level2.dfs import depth_first_search
+from level2.dijkstra import dijkstra
 
 
 def level2_play(check):
@@ -28,10 +32,20 @@ def level2_play(check):
     d = None
     path = None
     
+    
+    time_start = datetime.datetime.now()
+    tracemalloc.start()
     if check == 1:
         d, path = a_star(map_game)
     elif check == 2:
         d, path = breadth_first_search(map_game)
+    elif check == 3:
+        d, path = depth_first_search(map_game)
+    elif check == 4:
+        d, path = dijkstra(map_game)
+    current, peak = tracemalloc.get_traced_memory()
+    time_end = datetime.datetime.now()
+    tracemalloc.stop()
 
     TILE = 25
     FONTSIZE = 15
@@ -46,10 +60,6 @@ def level2_play(check):
 
     pygame.init()
     sc = pygame.display.set_mode(RES)
-    if check == 1:
-        pygame.display.set_caption("A*")
-    elif check == 2:
-        pygame.display.set_caption("BFS")
 
 
     clock = pygame.time.Clock()
@@ -162,10 +172,16 @@ def level2_play(check):
 
             num_step = font.render(f'number of step: {dodai}', True, (0, 0, 0))
             sc.blit(num_step, (scrollx*25 + M * TILE + 10, scrolly*25 + 40))
+            
+            memory_record = font.render(f"memory max: {round(peak / (1024 * 1024),3)} MB", True, (0, 0, 0))
+            sc.blit(memory_record, (scrollx*25 + M * TILE + 10, scrolly*25 + 70))
+            
+            time_consume = font.render(f'time: {round((time_end - time_start).total_seconds() * 1000,3)} milliseconds', True, (0, 0, 0))
+            sc.blit(time_consume, (scrollx*25 + M * TILE + 10, scrolly*25 + 100))
 
             for num_key in range(len(path[dodai - 1][2])):
                 dai = M * TILE + 10 + num_key * 20
-                cao = 70
+                cao = 130
                 if dai + 20 > WIDTH:
                     dai -= 200 * int(num_key / 10)
                     cao += 30 * int(num_key / 10)

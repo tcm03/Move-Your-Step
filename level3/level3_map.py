@@ -1,15 +1,19 @@
+import datetime
 import sys
 import time
 from random import choice
 from tkinter import filedialog
+import tracemalloc
 import pygame
 from level3.bfs import breadth_first_search
 
 from level3.custom_parser import read_input
+from level3.dfs import depth_first_search
+from level3.dijkstra import dijkstra
 
 
 
-def level3_play():
+def level3_play(check):
     
     def openFile():
         filepath = ""
@@ -99,8 +103,23 @@ def level3_play():
 
 
     every_map = map_read(map_game)
+    
+    d = None
+    path = None
+    
+    time_start = datetime.datetime.now()
+    tracemalloc.start()
+    if check == 1:
+        d, path = dijkstra(map_game)
+    elif check == 2:
+        d, path = breadth_first_search(map_game)
+    elif check == 3:
+        d, path = depth_first_search(map_game)
+    current, peak = tracemalloc.get_traced_memory()
+    time_end = datetime.datetime.now()
+    tracemalloc.stop()
 
-    d, path = breadth_first_search(map_game)
+    
 
     N = len(map_game[0])
     M = len(map_game[0][1])
@@ -179,10 +198,16 @@ def level3_play():
 
             num_step = font.render(f'number of steps: {dodai}', True, (0, 0, 0))
             sc.blit(num_step, (scrollx * 25 + M * TILE + 10, scrolly * 25 + 40))
+            
+            memory_record = font.render(f"memory max: {round(peak / (1024 * 1024),3)} MB", True, (0, 0, 0))
+            sc.blit(memory_record, (scrollx*25 + M * TILE + 10, scrolly*25 + 70))
+            
+            time_consume = font.render(f'time: {round((time_end - time_start).total_seconds() * 1000,3)} milliseconds', True, (0, 0, 0))
+            sc.blit(time_consume, (scrollx*25 + M * TILE + 10, scrolly*25 + 100))
 
             for num_key in range(len(path[dodai - 1][3])):
                 dai = M * TILE + 10 + num_key * 20
-                cao = 70
+                cao = 130
                 if dai + 20 > WIDTH:
                     dai -= 200 * int(num_key / 10)
                     cao += 30 * int(num_key / 10)

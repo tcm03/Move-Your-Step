@@ -1,8 +1,8 @@
-from queue import Queue
-
+import heapq
 
 INF = 1000000000
-def breadth_first_search(school_map):
+
+def dijkstra(school_map):
     D = len(school_map)
     N = len(school_map[0])
     M = len(school_map[0][0])
@@ -19,8 +19,8 @@ def breadth_first_search(school_map):
             for j in range(M):
                 if school_map[f][i][j][0] == "A":
                     start = (f, i, j, 0) # (floor, x-coordinate, y-coordinate, keyset)
-    Q = Queue()
-    Q.put(start)
+    Q = []
+    heapq.heappush(Q, (0, start)) # (distance, node)
     trace = []
     for _ in range(D):
         floor = []
@@ -47,10 +47,14 @@ def breadth_first_search(school_map):
         dist.append(floor)
     dist[start[0]][start[1]][start[2]][start[3]] = 0
     goal = (-1, -1, -1, -1)
-    while Q.qsize() > 0:
-        if goal != (-1, -1, -1, -1):
+    while Q:
+        if goal != (-1, -1, -1,-1):
             break
-        f, x, y, keyset = Q.get()
+        d, (f, x, y, keyset) = heapq.heappop(Q)
+        if (f, x, y, keyset) == goal:
+            break
+        if d != dist[f][x][y][keyset]:
+            continue
         moves = [(0, 0, 1), (0, 1, 0), (0, 0, -1), (0, -1, 0), (0, -1, -1), (0, -1, 1), (0, 1, -1), (0, 1, 1)]
         if school_map[f][x][y] == "UP":
             moves.append((1, 0, 0))
@@ -84,7 +88,7 @@ def breadth_first_search(school_map):
                 if num > num_keys:
                     continue
                 # this door has a corresponding key, but the key is not available
-                if keyset & (1 << (num-1)) == 0:
+                if keyset & (1 << (num - 1)) == 0:
                     continue
             new_keyset = keyset
             if school_map[next_f][next_x][next_y][0] == "K":
@@ -98,7 +102,7 @@ def breadth_first_search(school_map):
             if school_map[next_f][next_x][next_y][0] == "T":
                 goal = (next_f, next_x, next_y, new_keyset)
                 break
-            Q.put((next_f, next_x, next_y, new_keyset))
+            heapq.heappush(Q, (dist[next_f][next_x][next_y][new_keyset], (next_f, next_x, next_y, new_keyset))) # push the next node into the queue
     if goal == (-1, -1, -1, -1):
         return None,None
     else:
@@ -111,4 +115,3 @@ def breadth_first_search(school_map):
             goal = trace[goal[0]][goal[1]][goal[2]][goal[3]]
         path.reverse()
         return d, path
-

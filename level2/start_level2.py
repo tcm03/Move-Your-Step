@@ -15,9 +15,9 @@ def option_choose2():
     screen = pygame.display.set_mode((800, 600))
 
     # Tạo 5 nút bấm
-    buttons = [pygame.Rect(180 + i*120, 300, 100, 50) for i in range(4)]
-    button_texts = ['A*', 'BFS', 'DFS', 'Exit']
-    button_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0)]
+    buttons = [pygame.Rect(100 + i*120, 300, 100, 50) for i in range(5)]
+    button_texts = ['A*', 'BFS', 'DFS','DIJKSTRA', 'Exit']
+    button_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0),(0, 255, 255)]
 
     # Tạo font chữ
     font_button = pygame.font.Font(None, 24)
@@ -44,6 +44,10 @@ def option_choose2():
                             check = 1
                         if button_texts[idx] == 'BFS':
                             check = 2
+                        if button_texts[idx] == 'DFS':
+                            check = 3
+                        if button_texts[idx] == 'DIJKSTRA':
+                            check = 4
                         if button_texts[idx] == 'Exit':
                             return True
                         level2_play(check)

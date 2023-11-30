@@ -1,14 +1,16 @@
+import heapq
+
 INF = 1000000000
 
-def depth_first_search(school_map):
+def dijkstra(school_map):
     N = len(school_map) # number of rows
     M = len(school_map[0]) # number of columns
     for i in range(N):
         for j in range(M):
             if school_map[i][j][0] == "A":
                 start = (i, j) # start cell
-    S = []
-    S.append(start)
+    Q = []
+    heapq.heappush(Q, (0, start)) # push start node with distance 0
     trace = []
     for i in range(N):
         arr = []
@@ -23,10 +25,12 @@ def depth_first_search(school_map):
         dist.append(arr)
     dist[start[0]][start[1]] = 0
     goal = (-1, -1)
-    while len(S) > 0:
+    while len(Q) > 0:
         if goal != (-1, -1):
             break
-        x, y = S.pop() 
+        d, (x, y) = heapq.heappop(Q) # pop the node with the smallest distance
+        if d != dist[x][y]: # this node has already been processed
+            continue
         for x_offset, y_offset in [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
             next_x, next_y = x + x_offset, y + y_offset
             # invalid next cell
@@ -46,16 +50,15 @@ def depth_first_search(school_map):
                             break
                 if not valid:
                     continue
-            # next cell is already visited
-            if dist[next_x][next_y] != INF:
-                continue
-            dist[next_x][next_y] = dist[x][y] + 1
-            trace[next_x][next_y] = (x, y)
+            # relax the edge
+            if dist[x][y] + 1 < dist[next_x][next_y]:
+                dist[next_x][next_y] = dist[x][y] + 1
+                trace[next_x][next_y] = (x, y)
+                heapq.heappush(Q, (dist[next_x][next_y], (next_x, next_y))) # push the next node into the queue
             # the destination is here!
             if school_map[next_x][next_y][0] == "T":
                 goal = (next_x, next_y)
                 break
-            S.append((next_x, next_y))
     if goal == (-1, -1):
         return None, None
     else:

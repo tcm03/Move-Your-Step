@@ -8,6 +8,10 @@ from level1.bfs import breadth_first_search
 
 from level1.custom_parser import read_input
 from level1.dfs import depth_first_search
+from level1.dijkstra import dijkstra
+
+import datetime
+import tracemalloc
 
 
 def level1_play(check):
@@ -28,12 +32,19 @@ def level1_play(check):
     d = None
     path = None
     
+    time_start = datetime.datetime.now()
+    tracemalloc.start()
     if check == 1:
         d, path = a_star(map_game)
     elif check == 2:
         d, path = breadth_first_search(map_game)
     elif check == 3:
         d, path = depth_first_search(map_game)
+    elif check == 4:
+        d, path = dijkstra(map_game)
+    current, peak = tracemalloc.get_traced_memory()
+    time_end = datetime.datetime.now()
+    tracemalloc.stop()
     
 
     TILE = 25
@@ -164,11 +175,19 @@ def level1_play(check):
 
             num_step = font.render(f'number of step: {dodai}', True, (0, 0, 0))
             sc.blit(num_step, (scrollx*25 + M * TILE + 10, scrolly*25 + 40))
+            
+            memory_record = font.render(f"memory max: {round(peak / (1024 * 1024),3)} MB", True, (0, 0, 0))
+            sc.blit(memory_record, (scrollx*25 + M * TILE + 10, scrolly*25 + 70))
+            
+            time_consume = font.render(f'time: {round((time_end - time_start).total_seconds() * 1000,3)} milliseconds', True, (0, 0, 0))
+            sc.blit(time_consume, (scrollx*25 + M * TILE + 10, scrolly*25 + 100))
 
         else:
 
             num_step = font.render(f'number of steps: {i}', True, (0, 0, 0))
             sc.blit(num_step, (scrollx*25 + M * TILE + 10, scrolly*25 + 40))
+            
+
         
         if path is None:
             solve_or_not = font.render('There are not any paths', True, (0, 0, 0))
