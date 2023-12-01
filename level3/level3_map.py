@@ -193,6 +193,8 @@ def level3_play(check):
             i += 1
 
         if i >= dodai and path is not None:
+            
+            
             num_floor = font.render(f'Floor: {path[dodai - 1][0] + 1}', True, (0, 0, 0))
             sc.blit(num_floor, (scrollx * 25 + M * TILE + 10, scrolly * 25 + 10))
 
@@ -207,6 +209,9 @@ def level3_play(check):
             
             time_consume = font.render(f'time: {round((time_end - time_start).total_seconds() * 1000,3)} milliseconds', True, (0, 0, 0))
             sc.blit(time_consume, (scrollx*25 + M * TILE + 10, scrolly*25 + 130))
+            
+            
+            
 
             for num_key in range(len(path[dodai - 1][3])):
                 dai = M * TILE + 10 + num_key * 20
@@ -218,6 +223,8 @@ def level3_play(check):
                     sc.blit(lost_key, (scrollx * 25 + dai, scrolly * 25 + cao))
                 if path[dodai - 1][3][num_key] == '1':
                     sc.blit(get_key, (scrollx * 25 + dai, scrolly * 25 + cao))
+                    
+            
 
             # num_step = font.render(f'numbers step: {path[dodai-1][3]}', True, (0, 0, 0))
             # sc.blit(num_step, (M * TILE + 10, 70))
@@ -244,6 +251,9 @@ def level3_play(check):
             sc.blit(solve_or_not, (scrollx*25 + M * TILE + 10, scrolly*25 + 10))
 
         [cell.draw(scrollx * 25, scrolly * 25, sc, font) for cell in grid_cells]
+        
+        if i >= dodai:
+            pygame.image.save_extended(sc,'output.png')
 
         pygame.display.flip()
         time.sleep(0.1)

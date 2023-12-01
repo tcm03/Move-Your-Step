@@ -1,8 +1,26 @@
 from queue import Queue
+import sys
+
+from level3.custom_parser import read_input
 
 
 INF = 1000000000
 def breadth_first_search(school_map):
+    """
+    Description:
+        Find the shortest path from the start to the goal using breadth-first search.
+    Args:
+        school_map: a 3D array of strings, representing the school map with multiple floors
+    Returns:
+        a tuple (d, path), where d is the shortest path length and path is a list of coordinates
+        [(f1, x1, y1, s1), (f2, x2, y2, s2), ..., (fk, xk, yk, sk)] such that (f1, x1, y1, s1) is the start, 
+        (fk, xk, yk, sk) is the goal, (fi, xi, yi, si) and (fi+1, xi+1, yi+1, si+1) are adjacent cells in the path, and:
+        - fi: floor number
+        - xi: x-coordinate
+        - yi: y-coordinate
+        - si: keyset (represented as an binary integer)
+        If there is no path, return None.
+    """
     D = len(school_map)
     N = len(school_map[0])
     M = len(school_map[0][0])
@@ -112,3 +130,22 @@ def breadth_first_search(school_map):
         path.reverse()
         return d, path
 
+
+def main():
+    if len(sys.argv) < 2:
+        sys.exit("Please enter the input file name.")
+    elif len(sys.argv) > 2:
+        sys.exit("Too many arguments.")
+    school_map = read_input(sys.argv[1])
+    answer = breadth_first_search(school_map)
+    if answer:
+        d, path = answer
+        print(f"Shortest path length: {d}")
+        print("Path:")
+        for f, x, y, keyset in path:
+            print(f"({f}, {x}, {y}, {bin(keyset)})")
+    else:
+        print("No solution.")
+
+if __name__ == "__main__":
+    main()

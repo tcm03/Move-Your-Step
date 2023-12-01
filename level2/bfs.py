@@ -1,6 +1,8 @@
 from queue import Queue
 import sys
 
+from level3.custom_parser import read_input
+
 INF = 1000000000
 
 def breadth_first_search(school_map):
