@@ -1,4 +1,5 @@
 import datetime
+import os
 import sys
 import time
 from random import choice
@@ -106,20 +107,55 @@ def level3_play(check):
     
     d = None
     path = None
+    record_list = None
     
     time_start = datetime.datetime.now()
     tracemalloc.start()
     if check == 1:
-        d, path = dijkstra(map_game)
+        d, path, record_list = dijkstra(map_game)
     elif check == 2:
-        d, path = breadth_first_search(map_game)
+        d, path, record_list = breadth_first_search(map_game)
     elif check == 3:
-        d, path = depth_first_search(map_game)
+        d, path, record_list = depth_first_search(map_game)
     current, peak = tracemalloc.get_traced_memory()
     time_end = datetime.datetime.now()
     tracemalloc.stop()
 
-    
+    def heatmap(record_list,n_floors, N, M, file_name, every_map1, font):
+
+        for record in record_list:
+
+            if not every_map1[record[0]][record[2] + record[1] * cols].visited:
+                every_map1[record[0]][record[2] + record[1] * cols].visited = True
+            else:
+                every_map1[record[0]][record[2] + record[1] * cols].color_intense *= 0.5
+
+        WIDTH1, HEIGHT1 = M * 25, N * 25
+
+        RES1 = WIDTH1, HEIGHT1
+        sc1 = pygame.display.set_mode(RES1)
+        sc1.fill(pygame.Color('white'))
+
+        for i in range(n_floors):
+            
+
+            [cell.draw(0 * 25, 0 * 25, sc1, font) for cell in every_map1[i]]
+
+            pygame.image.save(sc1, file_name+f'floor{i+1}.png')
+            
+    def heatmap1(every_map1, n_floors, N, M, file_name):
+        WIDTH1, HEIGHT1 = M * 25, N * 25
+
+        RES1 = WIDTH1, HEIGHT1
+        sc1 = pygame.display.set_mode(RES1)
+        sc1.fill(pygame.Color('white'))
+
+        for i in range(n_floors):
+            sc1.fill(pygame.Color('white'))
+
+            [cell.draw(0 * 25, 0 * 25, sc1, font) for cell in every_map1[i]]
+
+            pygame.image.save(sc1, file_name+f'floor{i+1}.png')
 
     N = len(map_game[0])
     M = len(map_game[0][1])
@@ -159,6 +195,16 @@ def level3_play(check):
         sc.fill(pygame.Color('white'))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                now = datetime.datetime.now()
+                t = now.strftime("%Y_%m_%d_%H_%M_%S")
+                file_name = f'level3\heatmap\{t}\\'
+                os.mkdir(file_name)
+                heatmapdir = file_name + "heatmap\\"
+                os.mkdir(heatmapdir)
+                heatmap(record_list,n_floor,N,M,heatmapdir,every_map,font)
+                visualizedir = file_name + "visualize\\"
+                os.mkdir(visualizedir)
+                heatmap1(every_map,n_floor, N, M, visualizedir)
                 pygame.display.set_mode((800, 600))
                 pygame.display.set_caption("Move Your Step")
                 return True

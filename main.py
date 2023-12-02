@@ -4,10 +4,7 @@ import time
 from random import choice
 import pygame
 from level1.start_level1 import option_choose1
-
-from level2.level2_map import level2_play
 from level2.start_level2 import option_choose2
-from level3.level3_map import level3_play
 from level3.start_level3 import option_choose3
 
 

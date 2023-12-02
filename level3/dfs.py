@@ -1,6 +1,7 @@
 INF = 1000000000
 
 def depth_first_search(school_map):
+    record_list = []
     D = len(school_map)
     N = len(school_map[0])
     M = len(school_map[0][0])
@@ -49,6 +50,7 @@ def depth_first_search(school_map):
         if goal != (-1, -1, -1, -1):
             break
         f, x, y, keyset = S.pop() # pop the last element
+        record_list.append((f,x,y))
         moves = [(0, 0, 1), (0, 1, 0), (0, 0, -1), (0, -1, 0), (0, -1, -1), (0, -1, 1), (0, 1, -1), (0, 1, 1)]
         if school_map[f][x][y] == "UP":
             moves.append((1, 0, 0))
@@ -91,7 +93,7 @@ def depth_first_search(school_map):
                 break
             S.append((next_f, next_x, next_y, new_keyset)) # push into the stack
     if goal == (-1, -1, -1, -1):
-        return None,None
+        return None,None, None
     else:
         d = dist[goal[0]][goal[1]][goal[2]][goal[3]]
         path = []
@@ -100,4 +102,4 @@ def depth_first_search(school_map):
             path.append((goal[0], goal[1], goal[2], keyset_str))
             goal = trace[goal[0]][goal[1]][goal[2]][goal[3]]
         path.reverse()
-        return d, path
+        return d, path, record_list

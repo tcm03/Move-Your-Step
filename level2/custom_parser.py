@@ -28,3 +28,5 @@ def read_input(filename):
         if len(location) != N:
             sys.exit(f"Invalid number of lines: {len(location)}")
         return location
+
+

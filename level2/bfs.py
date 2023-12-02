@@ -20,6 +20,7 @@ def breadth_first_search(school_map):
         - si: keyset (represented as an binary integer)
         If there is no path, return None.
     """
+    record_list = []
     N = len(school_map)
     M = len(school_map[0])
     num_keys = 0
@@ -59,6 +60,7 @@ def breadth_first_search(school_map):
         if goal != (-1, -1, -1):
             break
         x, y, keyset = Q.get()
+        record_list.append((x,y))
         for x_offset, y_offset in [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
             next_x, next_y = x + x_offset, y + y_offset
             # invalid next cell
@@ -101,7 +103,7 @@ def breadth_first_search(school_map):
                 break
             Q.put((next_x, next_y, new_keyset))
     if goal == (-1, -1, -1):
-        return None,None
+        return None,None,None
     else:
         d = dist[goal[0]][goal[1]][goal[2]]
         path = []
@@ -111,5 +113,5 @@ def breadth_first_search(school_map):
             path.append((goal[0], goal[1], keyset_str))
             goal = trace[goal[0]][goal[1]][goal[2]]
         path.reverse()
-        return d, path
+        return d, path, record_list
 

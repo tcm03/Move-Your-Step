@@ -23,6 +23,7 @@ def breadth_first_search(school_map):
         for j in range(M):
             if school_map[i][j][0] == "A":
                 start = (i, j) # start cell
+    record_list = []
     Q = Queue()
     Q.put(start)
     trace = []
@@ -43,6 +44,7 @@ def breadth_first_search(school_map):
         if goal != (-1, -1):
             break
         x, y = Q.get()
+        record_list.append((x,y))
         for x_offset, y_offset in [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
             next_x, next_y = x + x_offset, y + y_offset
             # invalid next cell
@@ -73,7 +75,7 @@ def breadth_first_search(school_map):
                 break
             Q.put((next_x, next_y))
     if goal == (-1, -1):
-        return None, None
+        return None, None, None
     else:
         d = dist[goal[0]][goal[1]]
         path = []
@@ -81,7 +83,7 @@ def breadth_first_search(school_map):
             path.append(goal)
             goal = trace[goal[0]][goal[1]]
         path.reverse()
-        return d, path
+        return d, path, record_list
 
 def main():
     if len(sys.argv) < 2:

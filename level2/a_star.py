@@ -53,6 +53,7 @@ def next_move(school_map, current):
 
 
 def a_star(school_map):
+    record_list = []
     N = len(school_map)  # number of rows
     M = len(school_map[0])  # number of columns
 
@@ -101,6 +102,7 @@ def a_star(school_map):
     while not frontier.empty():
 
         f_value, (x, y, key_set) = frontier.get()
+        record_list.append((x,y))
 
         # check cell is goal
         if (x, y) == (goal[0], goal[1]):
@@ -111,7 +113,7 @@ def a_star(school_map):
                 path.append((x, y, key_set_str))
                 (x, y, key_set) = trace[x][y][key_set]
             path.reverse()
-            return d, path
+            return d, path,record_list
 
         available_moves = next_move(current=(x, y, key_set), school_map=school_map)
 
@@ -132,4 +134,4 @@ def a_star(school_map):
 
             frontier.put((dist_next+heuristic_next, (next_x, next_y, next_key_set)))
 
-    return None, None
+    return None, None, None

@@ -9,6 +9,7 @@ def dijkstra(school_map):
         for j in range(M):
             if school_map[i][j][0] == "A":
                 start = (i, j) # start cell
+    record_list = []
     Q = []
     heapq.heappush(Q, (0, start)) # push start node with distance 0
     trace = []
@@ -31,6 +32,11 @@ def dijkstra(school_map):
         d, (x, y) = heapq.heappop(Q) # pop the node with the smallest distance
         if d != dist[x][y]: # this node has already been processed
             continue
+        record_list.append((x,y))
+        # the destination is here!
+        if school_map[x][y][0] == "T":
+            goal = (x, y)
+            break
         for x_offset, y_offset in [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
             next_x, next_y = x + x_offset, y + y_offset
             # invalid next cell
@@ -55,12 +61,8 @@ def dijkstra(school_map):
                 dist[next_x][next_y] = dist[x][y] + 1
                 trace[next_x][next_y] = (x, y)
                 heapq.heappush(Q, (dist[next_x][next_y], (next_x, next_y))) # push the next node into the queue
-            # the destination is here!
-            if school_map[next_x][next_y][0] == "T":
-                goal = (next_x, next_y)
-                break
     if goal == (-1, -1):
-        return None, None
+        return None, None, None
     else:
         d = dist[goal[0]][goal[1]]
         path = []
@@ -68,4 +70,4 @@ def dijkstra(school_map):
             path.append(goal)
             goal = trace[goal[0]][goal[1]]
         path.reverse()
-        return d, path
+        return d, path, record_list

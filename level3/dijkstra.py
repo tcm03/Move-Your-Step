@@ -3,6 +3,7 @@ import heapq
 INF = 1000000000
 
 def dijkstra(school_map):
+    record_list = []
     D = len(school_map)
     N = len(school_map[0])
     M = len(school_map[0][0])
@@ -51,10 +52,15 @@ def dijkstra(school_map):
         if goal != (-1, -1, -1,-1):
             break
         d, (f, x, y, keyset) = heapq.heappop(Q)
+        record_list.append((f,x,y))
         if (f, x, y, keyset) == goal:
             break
         if d != dist[f][x][y][keyset]:
             continue
+    # the destination is here!
+        if school_map[f][x][y][0] == "T":
+            goal = (f, x, y, keyset)
+            break
         moves = [(0, 0, 1), (0, 1, 0), (0, 0, -1), (0, -1, 0), (0, -1, -1), (0, -1, 1), (0, 1, -1), (0, 1, 1)]
         if school_map[f][x][y] == "UP":
             moves.append((1, 0, 0))
@@ -98,13 +104,9 @@ def dijkstra(school_map):
                 continue
             dist[next_f][next_x][next_y][new_keyset] = dist[f][x][y][keyset] + 1
             trace[next_f][next_x][next_y][new_keyset] = (f, x, y, keyset)
-            # the destination is here!
-            if school_map[next_f][next_x][next_y][0] == "T":
-                goal = (next_f, next_x, next_y, new_keyset)
-                break
             heapq.heappush(Q, (dist[next_f][next_x][next_y][new_keyset], (next_f, next_x, next_y, new_keyset))) # push the next node into the queue
     if goal == (-1, -1, -1, -1):
-        return None,None
+        return None,None, None
     else:
         d = dist[goal[0]][goal[1]][goal[2]][goal[3]]
         path = []
@@ -114,4 +116,4 @@ def dijkstra(school_map):
             path.append((goal[0], goal[1], goal[2], keyset_str))
             goal = trace[goal[0]][goal[1]][goal[2]][goal[3]]
         path.reverse()
-        return d, path
+        return d, path, record_list

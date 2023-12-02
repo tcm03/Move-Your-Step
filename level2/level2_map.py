@@ -1,4 +1,5 @@
 import datetime
+import os
 import sys
 import time
 from random import choice
@@ -31,18 +32,18 @@ def level2_play(check):
     
     d = None
     path = None
-    
+    record_list = None
     
     time_start = datetime.datetime.now()
     tracemalloc.start()
     if check == 1:
-        d, path = a_star(map_game)
+        d, path, record_list = a_star(map_game)
     elif check == 2:
-        d, path = breadth_first_search(map_game)
+        d, path, record_list = breadth_first_search(map_game)
     elif check == 3:
-        d, path = depth_first_search(map_game)
+        d, path, record_list = depth_first_search(map_game)
     elif check == 4:
-        d, path = dijkstra(map_game)
+        d, path, record_list = dijkstra(map_game)
     current, peak = tracemalloc.get_traced_memory()
     time_end = datetime.datetime.now()
     tracemalloc.stop()
@@ -78,7 +79,7 @@ def level2_play(check):
             x, y = self.x * TILE, self.y * TILE
             pygame.draw.rect(sc, pygame.Color('saddlebrown'), (x + 2, y + 2, TILE - 2, TILE - 2))
 
-        def draw(self, distance, distancey):
+        def draw(self, distance, distancey, sc):
             x, y = self.x * TILE, self.y * TILE
             if self.visited:
                 pygame.draw.rect(sc, (
@@ -120,6 +121,43 @@ def level2_play(check):
     get_key = pygame.transform.scale(get_key,(20,20))
     lost_key = pygame.image.load("level2\keylost.png")
     lost_key = pygame.transform.scale(lost_key,(20,20))
+    
+    def heat_map(record_list, N, M, map_game1, file_name):
+        grid_cells1 = [Cell(col, row, map_game1[row][col]) for row in range(N) for col in range(M)]
+
+        WIDTH1, HEIGHT1 = M * 25, N * 25
+
+        RES1 = WIDTH1, HEIGHT1
+        sc1 = pygame.display.set_mode(RES1)
+
+        dodai = 0
+        if record_list is not None:
+            dodai = len(record_list)
+
+        sc1.fill(pygame.Color('white'))
+
+        for i in range(dodai):
+            if not grid_cells1[record_list[i][1] + record_list[i][0] * cols].visited:
+                grid_cells1[record_list[i][1] + record_list[i][0] * cols].visited = True
+            else:
+                grid_cells1[record_list[i][1] + record_list[i][0] * cols].color_intense *= 0.5
+
+        [cell.draw(0 * 25, 0 * 25, sc1) for cell in grid_cells1]
+
+        pygame.image.save(sc1, file_name+ "heatmap.png")
+        
+    def heat_map1(need_draw_map, N, M, file_name):
+
+        WIDTH1, HEIGHT1 = M * 25, N * 25
+
+        RES1 = WIDTH1, HEIGHT1
+        sc1 = pygame.display.set_mode(RES1)
+        sc1.fill(pygame.Color('white'))
+
+
+        [cell.draw(0 * 25, 0 * 25, sc1) for cell in need_draw_map]
+
+        pygame.image.save(sc1, file_name+"visualize.png")
 
     dodai = 0
     if path is not None:
@@ -134,6 +172,12 @@ def level2_play(check):
         sc.fill(pygame.Color('white'))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                now = datetime.datetime.now()
+                t = now.strftime("%Y_%m_%d_%H_%M_%S")
+                file_name = f'level2\heatmap\{t}\\'
+                os.mkdir(file_name)
+                heat_map(record_list,N,M,map_game,file_name)
+                heat_map1(grid_cells,N,M,file_name)
                 pygame.display.set_mode((800, 600))
                 pygame.display.set_caption("Move Your Step")
                 return True
@@ -213,7 +257,7 @@ def level2_play(check):
             solve_or_not = font.render('There are not any paths', True, (0, 0, 0))
             sc.blit(solve_or_not, (scrollx*25 + M * TILE + 10, scrolly*25 + 10))
 
-        [cell.draw(scrollx*25, scrolly*25) for cell in grid_cells]
+        [cell.draw(scrollx*25, scrolly*25, sc) for cell in grid_cells]
 
         pygame.display.flip()
         time.sleep(0.05)

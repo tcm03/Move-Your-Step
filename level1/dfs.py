@@ -1,6 +1,7 @@
 INF = 1000000000
 
 def depth_first_search(school_map):
+    record_list = []
     N = len(school_map) # number of rows
     M = len(school_map[0]) # number of columns
     for i in range(N):
@@ -27,6 +28,7 @@ def depth_first_search(school_map):
         if goal != (-1, -1):
             break
         x, y = S.pop() 
+        record_list.append((x,y))
         for x_offset, y_offset in [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
             next_x, next_y = x + x_offset, y + y_offset
             # invalid next cell
@@ -57,7 +59,7 @@ def depth_first_search(school_map):
                 break
             S.append((next_x, next_y))
     if goal == (-1, -1):
-        return None, None
+        return None, None, None
     else:
         d = dist[goal[0]][goal[1]]
         path = []
@@ -65,4 +67,4 @@ def depth_first_search(school_map):
             path.append(goal)
             goal = trace[goal[0]][goal[1]]
         path.reverse()
-        return d, path
+        return d, path, record_list

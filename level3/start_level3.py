@@ -17,7 +17,7 @@ def option_choose3():
 
     # Tạo 5 nút bấm
     buttons = [pygame.Rect(180 + i*120, 300, 100, 50) for i in range(4)]
-    button_texts = ['A*', 'BFS', 'DFS', 'Exit']
+    button_texts = ['DIJKSTRA', 'BFS', 'DFS', 'Exit']
     button_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0)]
 
     # Tạo font chữ

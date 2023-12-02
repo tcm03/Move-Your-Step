@@ -6,6 +6,8 @@ from level3.custom_parser import read_input
 
 INF = 1000000000
 def breadth_first_search(school_map):
+    
+    record_list = []
     """
     Description:
         Find the shortest path from the start to the goal using breadth-first search.
@@ -69,6 +71,7 @@ def breadth_first_search(school_map):
         if goal != (-1, -1, -1, -1):
             break
         f, x, y, keyset = Q.get()
+        record_list.append((f,x,y))
         moves = [(0, 0, 1), (0, 1, 0), (0, 0, -1), (0, -1, 0), (0, -1, -1), (0, -1, 1), (0, 1, -1), (0, 1, 1)]
         if school_map[f][x][y] == "UP":
             moves.append((1, 0, 0))
@@ -118,7 +121,7 @@ def breadth_first_search(school_map):
                 break
             Q.put((next_f, next_x, next_y, new_keyset))
     if goal == (-1, -1, -1, -1):
-        return None,None
+        return None,None,None
     else:
         d = dist[goal[0]][goal[1]][goal[2]][goal[3]]
         path = []
@@ -128,7 +131,7 @@ def breadth_first_search(school_map):
             path.append((goal[0], goal[1], goal[2], keyset_str))
             goal = trace[goal[0]][goal[1]][goal[2]][goal[3]]
         path.reverse()
-        return d, path
+        return d, path, record_list
 
 
 def main():

@@ -3,6 +3,7 @@ import heapq
 INF = 1000000000
 
 def dijkstra(school_map):
+    record_list = []
     N = len(school_map) # number of rows
     M = len(school_map[0]) # number of columns
     num_keys = 0
@@ -42,8 +43,13 @@ def dijkstra(school_map):
         if goal != (-1, -1, -1):
             break
         d, (x, y, keyset) = heapq.heappop(Q) # pop the node with the smallest distance
+        record_list.append((x,y))
         if d != dist[x][y][keyset]: # this node has already been processed
             continue
+    # the destination is here!
+        if school_map[x][y][0] == "T":
+            goal = (x, y, new_keyset)
+            break
         for x_offset, y_offset in [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
             next_x, next_y = x + x_offset, y + y_offset
             # invalid next cell
@@ -80,13 +86,9 @@ def dijkstra(school_map):
                 continue
             dist[next_x][next_y][new_keyset] = dist[x][y][keyset] + 1
             trace[next_x][next_y][new_keyset] = (x, y, keyset)
-            # the destination is here!
-            if school_map[next_x][next_y][0] == "T":
-                goal = (next_x, next_y, new_keyset)
-                break
             heapq.heappush(Q, (dist[next_x][next_y][new_keyset], (next_x, next_y, new_keyset))) # push the next node into the queue
     if goal == (-1, -1, -1):
-        return None,None
+        return None,None,None
     else:
         d = dist[goal[0]][goal[1]][goal[2]]
         path = []
@@ -96,4 +98,4 @@ def dijkstra(school_map):
             path.append((goal[0], goal[1], keyset_str))
             goal = trace[goal[0]][goal[1]][goal[2]]
         path.reverse()
-        return d, path
+        return d, path, record_list
