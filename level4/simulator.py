@@ -161,7 +161,13 @@ def breadth_first_search(initial_map, num_keys, agent_number, positions, targets
 def run_simulation(original_map):
     school_map = copy.deepcopy(original_map)
     agents = extract_agents(school_map)
+    agents_log = {}
+    for a, coor in agents.items():
+        agents_log[a] = [coor]
     targets = extract_targets(school_map)
+    targets_log = {}
+    for a, coor in targets.items():
+        targets_log[a] = [coor]
     D = len(school_map)
     N = len(school_map[0])
     M = len(school_map[0][0])
@@ -176,13 +182,16 @@ def run_simulation(original_map):
     keysets = {}
     for i in range(1, len(agents) + 1):
         keysets[i] = 0
-    map_snapshot = [get_full_map(school_map, agents, targets)]
+    max_steps = 1000
     while True:
+        if max_steps == 0:
+            return agents_log, targets_log
         make_progress = False
         for i in range(1, len(agents) + 1):
             #print(f"At {i}")
             old_pos = agents[i]
             breadth_first_search(school_map, num_keys, i, agents, targets, keysets)
+            agents_log[i].append(agents[i])
             #print(f"After bfs:")
             #print_map(get_full_map(school_map, agents, targets))
             if agents[i] != old_pos:
@@ -192,17 +201,18 @@ def run_simulation(original_map):
             if len(targets) < len(agents):
                 #print("Update targets")
                 finish_game = update_targets(school_map, agents, targets)
+                if i in targets:
+                    targets_log[i].append(targets[i])
             #print(f"agents: {agents}")
             #print(f"targets: {targets}")
-            print_map(get_full_map(school_map, agents, targets))
+            #print_map(get_full_map(school_map, agents, targets))
             if finish_game:
                 # A1 reached T1
-                map_snapshot.append(get_full_map(school_map, agents, targets))
-                return map_snapshot
-            map_snapshot.append(get_full_map(school_map, agents, targets))
+                return agents_log, targets_log
             
         if not make_progress:
-            return None
+            return agents_log, targets_log
+        max_steps -= 1
 
 def main():
     if len(sys.argv) < 2:
@@ -210,17 +220,13 @@ def main():
     elif len(sys.argv) > 2:
         sys.exit("Too many arguments.")
     school_map = read_input(sys.argv[1])
-    map_snapshot = run_simulation(school_map)
-    if map_snapshot is None:
-        print("Simulation failed. All agents are stuck.")
-    else:
-        with open("output.txt", "w") as file:
-            for school_map in map_snapshot:
-                for idx, floor in enumerate(school_map):
-                    file.write(f"[floor{idx+1}]\n")
-                    for row in floor:
-                        file.write(",".join(row) + "\n")
-                file.write("\n")
+    positions, targets = run_simulation(school_map)
+    with open("output.txt", "w") as file:
+        num_agents = len(positions)
+        for i in range(1, num_agents + 1):
+            file.write(f"AGENT {i}:\n")
+            file.write(f"List of positions: {positions[i]}\n")
+            file.write(f"List of targets: {targets[i]}\n")
 
 if __name__ == "__main__":
     main()
