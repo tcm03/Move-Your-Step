@@ -6,6 +6,7 @@ import pygame
 from level1.start_level1 import option_choose1
 from level2.start_level2 import option_choose2
 from level3.start_level3 import option_choose3
+from level4.start_level4 import option_choose4
 
 
 # Khởi tạo Pygame
@@ -38,7 +39,6 @@ while True:
             mouse_pos = event.pos
             for idx, button in enumerate(buttons):
                 if button.collidepoint(mouse_pos):
-                    print(f'{button_texts[idx]} đã được nhấn!')
                     if button_texts[idx] == 'Level 1':
                         if option_choose1():
                             continue
@@ -47,6 +47,9 @@ while True:
                             continue
                     if button_texts[idx] == 'Level 3':
                         if option_choose3():
+                            continue
+                    if button_texts[idx] == 'Level 4':
+                        if option_choose4():
                             continue
                     if button_texts[idx] == 'Exit':
                         pygame.quit()

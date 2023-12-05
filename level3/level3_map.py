@@ -121,7 +121,9 @@ def level3_play(check):
     time_end = datetime.datetime.now()
     tracemalloc.stop()
 
-    def heatmap(record_list,n_floors, N, M, file_name, every_map1, font):
+    def heatmap(record_list,n_floors, N, M, file_name, font):
+        
+        every_map1 = map_read(map_game)
 
         for record in record_list:
 
@@ -134,10 +136,11 @@ def level3_play(check):
 
         RES1 = WIDTH1, HEIGHT1
         sc1 = pygame.display.set_mode(RES1)
-        sc1.fill(pygame.Color('white'))
+        
+        TILE = 25
 
         for i in range(n_floors):
-            
+            sc1.fill(pygame.Color('white'))
 
             [cell.draw(0 * 25, 0 * 25, sc1, font) for cell in every_map1[i]]
 
@@ -147,15 +150,16 @@ def level3_play(check):
         WIDTH1, HEIGHT1 = M * 25, N * 25
 
         RES1 = WIDTH1, HEIGHT1
-        sc1 = pygame.display.set_mode(RES1)
-        sc1.fill(pygame.Color('white'))
+        sc2 = pygame.display.set_mode(RES1)
+        sc2.fill(pygame.Color('white'))
+        TILE = 25
 
         for i in range(n_floors):
-            sc1.fill(pygame.Color('white'))
+            sc2.fill(pygame.Color('white'))
 
-            [cell.draw(0 * 25, 0 * 25, sc1, font) for cell in every_map1[i]]
+            [cell.draw(0 * 25, 0 * 25, sc2, font) for cell in every_map1[i]]
 
-            pygame.image.save(sc1, file_name+f'floor{i+1}.png')
+            pygame.image.save(sc2, file_name+f'floor{i+1}.png')
 
     N = len(map_game[0])
     M = len(map_game[0][1])
@@ -199,12 +203,12 @@ def level3_play(check):
                 t = now.strftime("%Y_%m_%d_%H_%M_%S")
                 file_name = f'level3\heatmap\{t}\\'
                 os.mkdir(file_name)
-                heatmapdir = file_name + "heatmap\\"
-                os.mkdir(heatmapdir)
-                heatmap(record_list,n_floor,N,M,heatmapdir,every_map,font)
                 visualizedir = file_name + "visualize\\"
                 os.mkdir(visualizedir)
                 heatmap1(every_map,n_floor, N, M, visualizedir)
+                heatmapdir = file_name + "heatmap\\"
+                os.mkdir(heatmapdir)
+                heatmap(record_list,n_floor,N,M,heatmapdir,font)
                 pygame.display.set_mode((800, 600))
                 pygame.display.set_caption("Move Your Step")
                 return True
@@ -298,8 +302,6 @@ def level3_play(check):
 
         [cell.draw(scrollx * 25, scrolly * 25, sc, font) for cell in grid_cells]
         
-        if i >= dodai:
-            pygame.image.save_extended(sc,'output.png')
 
         pygame.display.flip()
         time.sleep(0.1)

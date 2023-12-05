@@ -39,7 +39,6 @@ def option_choose2():
                 for idx, button in enumerate(buttons):
                     check = 1
                     if button.collidepoint(mouse_pos):
-                        print(f'{button_texts[idx]} đã được nhấn!')
                         if button_texts[idx] == 'A*':
                             check = 1
                         if button_texts[idx] == 'BFS':

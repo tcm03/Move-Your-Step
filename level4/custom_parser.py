@@ -1,12 +1,14 @@
 import sys
 import re
 
+
 def is_valid_token(s):
     pattern = r"^(0|-1|A\d+|T\d+|D\d+|K\d+|UP|DO)$"
     if re.match(pattern, s):
         return True
     else:
         return False
+
 
 def read_input(filename):
     with open(filename, "r") as file:
@@ -16,14 +18,14 @@ def read_input(filename):
             sys.exit("The first line should contain two positive integers, separated by a comma.")
         location = []
         floor = 1
-        
+
         while True:
             line = file.readline().strip()
             if not line:
                 break
             if not line.startswith(f"[floor{floor}]"):
                 sys.exit(f"Invalid format: expected [floor{floor}] but got {line}")
-            
+
             floor_location = []
             for i in range(N):
                 line = file.readline().strip()
@@ -43,5 +45,5 @@ def read_input(filename):
 
             location.append(floor_location)
             floor += 1
-        
+
         return location

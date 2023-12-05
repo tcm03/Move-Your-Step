@@ -1,12 +1,12 @@
-import os
+
+
 import sys
-import time
-from random import choice
 import pygame
 
-from level1.level1_map import level1_play
+from level4.level4_map import level4_play
 
-def option_choose1():
+
+def option_choose4():
 
     # Khởi tạo Pygame
     pygame.init()
@@ -15,10 +15,9 @@ def option_choose1():
     screen = pygame.display.set_mode((800, 600))
 
     # Tạo 5 nút bấm
-    buttons = [pygame.Rect(100 + i*120, 300, 100, 50) for i in range(5)]
-    button_texts = ['A*', 'BFS', 'DFS','DIJKSTRA', 'Exit']
-    button_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0),(0, 255, 255)]
-
+    buttons = [pygame.Rect(280 + i*120, 300, 100, 50) for i in range(2)]
+    button_texts = ['Start','Exit']
+    button_colors = [(255, 0, 0), (0, 255, 0)]
 
     # Tạo font chữ
     font_button = pygame.font.Font(None, 24)
@@ -40,17 +39,11 @@ def option_choose1():
                 for idx, button in enumerate(buttons):
                     check = 1
                     if button.collidepoint(mouse_pos):
-                        if button_texts[idx] == 'A*':
+                        if button_texts[idx] == 'Start':
                             check = 1
-                        if button_texts[idx] == 'BFS':
-                            check = 2
-                        if button_texts[idx] == 'DFS':
-                            check = 3
-                        if button_texts[idx] == 'DIJKSTRA':
-                            check = 4
                         if button_texts[idx] == 'Exit':
                             return True
-                        level1_play(check)
+                        level4_play(check)
 
         screen.fill((255, 255, 255))
 

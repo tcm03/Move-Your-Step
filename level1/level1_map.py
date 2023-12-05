@@ -125,6 +125,7 @@ def level1_play(check):
 
         RES1 = WIDTH1, HEIGHT1
         sc1 = pygame.display.set_mode(RES1)
+        TILE = 25
 
         dodai = 0
         if record_list is not None:
@@ -149,6 +150,7 @@ def level1_play(check):
         RES1 = WIDTH1, HEIGHT1
         sc1 = pygame.display.set_mode(RES1)
         sc1.fill(pygame.Color('white'))
+        TILE = 25
 
 
         [cell.draw(0 * 25, 0 * 25, sc1) for cell in need_draw_map]
