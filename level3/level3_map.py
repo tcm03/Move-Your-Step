@@ -203,10 +203,10 @@ def level3_play(check):
                 t = now.strftime("%Y_%m_%d_%H_%M_%S")
                 file_name = f'level3\heatmap\{t}\\'
                 os.mkdir(file_name)
-                visualizedir = file_name + "visualize\\"
+                visualizedir = file_name + "heatmap\\" 
                 os.mkdir(visualizedir)
                 heatmap1(every_map,n_floor, N, M, visualizedir)
-                heatmapdir = file_name + "heatmap\\"
+                heatmapdir = file_name + "visualize\\"
                 os.mkdir(heatmapdir)
                 heatmap(record_list,n_floor,N,M,heatmapdir,font)
                 pygame.display.set_mode((800, 600))

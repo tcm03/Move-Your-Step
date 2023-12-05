@@ -141,7 +141,7 @@ def level1_play(check):
 
         [cell.draw(0 * 25, 0 * 25, sc1) for cell in grid_cells1]
 
-        pygame.image.save(sc1, file_name+"heatmap.png")
+        pygame.image.save(sc1, file_name+"visualize.png")
         
     def heat_map1(need_draw_map, N, M, file_name):
 
@@ -155,7 +155,7 @@ def level1_play(check):
 
         [cell.draw(0 * 25, 0 * 25, sc1) for cell in need_draw_map]
 
-        pygame.image.save(sc1, file_name+"visualize.png")
+        pygame.image.save(sc1, file_name+"heatmap.png")
 
 
     dodai = 0
