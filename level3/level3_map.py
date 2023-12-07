@@ -124,13 +124,13 @@ def level3_play(check):
     def heatmap(record_list,n_floors, N, M, file_name, font):
         
         every_map1 = map_read(map_game)
+        if record_list != None:
+            for record in record_list:
 
-        for record in record_list:
-
-            if not every_map1[record[0]][record[2] + record[1] * cols].visited:
-                every_map1[record[0]][record[2] + record[1] * cols].visited = True
-            else:
-                every_map1[record[0]][record[2] + record[1] * cols].color_intense *= 0.5
+                if not every_map1[record[0]][record[2] + record[1] * cols].visited:
+                    every_map1[record[0]][record[2] + record[1] * cols].visited = True
+                else:
+                    every_map1[record[0]][record[2] + record[1] * cols].color_intense *= 0.5
 
         WIDTH1, HEIGHT1 = M * 25, N * 25
 

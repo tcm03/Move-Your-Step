@@ -182,33 +182,33 @@ def level4_play(check):
 
     def heatmap(record_list, n_floors, N, M, file_name, font, turn_agent_check, keylist):
         every_map1 = map_read(map_game, True)
+        if record_list != None:
+            for record in record_list:
 
-        for record in record_list:
-
-            if not every_map1[record[0]][record[2] + record[1] * cols].visited:
-                every_map1[record[0]][record[2] + record[1] * cols].visited = True
-            else:
-                every_map1[record[0]][record[2] + record[1] * cols].intense *= 0.5
+                if not every_map1[record[0]][record[2] + record[1] * cols].visited:
+                    every_map1[record[0]][record[2] + record[1] * cols].visited = True
+                else:
+                    every_map1[record[0]][record[2] + record[1] * cols].intense *= 0.5
 
 
-            if turn_agent_check == 0:
-                every_map1[record[0]][record[2] + record[1] * cols].color_old = (255, 255, 153)
-            elif turn_agent_check == 1:
-                every_map1[record[0]][record[2] + record[1] * cols].color_old = (244, 164, 96)
-            elif turn_agent_check == 2:
-                every_map1[record[0]][record[2] + record[1] * cols].color_old = (204, 204, 255)
-            elif turn_agent_check == 3:
-                every_map1[record[0]][record[2] + record[1] * cols].color_old = (255, 204, 229)
-            elif turn_agent_check == 4:
-                every_map1[record[0]][record[2] + record[1] * cols].color_old = (204, 255, 204)
-            elif turn_agent_check == 5:
-                every_map1[record[0]][record[2] + record[1] * cols].color_old = (204, 229, 255)
-            elif turn_agent_check == 6:
-                every_map1[record[0]][record[2] + record[1] * cols].color_old = (204, 229, 255)
-            elif turn_agent_check == 7:
-                every_map1[record[0]][record[2] + record[1] * cols].color_old = (229, 255, 204)
-            elif turn_agent_check == 8:
-                every_map1[record[0]][record[2] + record[1] * cols].color_old = (255, 204, 204)
+                if turn_agent_check == 0:
+                    every_map1[record[0]][record[2] + record[1] * cols].color_old = (255, 255, 153)
+                elif turn_agent_check == 1:
+                    every_map1[record[0]][record[2] + record[1] * cols].color_old = (244, 164, 96)
+                elif turn_agent_check == 2:
+                    every_map1[record[0]][record[2] + record[1] * cols].color_old = (204, 204, 255)
+                elif turn_agent_check == 3:
+                    every_map1[record[0]][record[2] + record[1] * cols].color_old = (255, 204, 229)
+                elif turn_agent_check == 4:
+                    every_map1[record[0]][record[2] + record[1] * cols].color_old = (204, 255, 204)
+                elif turn_agent_check == 5:
+                    every_map1[record[0]][record[2] + record[1] * cols].color_old = (204, 229, 255)
+                elif turn_agent_check == 6:
+                    every_map1[record[0]][record[2] + record[1] * cols].color_old = (204, 229, 255)
+                elif turn_agent_check == 7:
+                    every_map1[record[0]][record[2] + record[1] * cols].color_old = (229, 255, 204)
+                elif turn_agent_check == 8:
+                    every_map1[record[0]][record[2] + record[1] * cols].color_old = (255, 204, 204)
 
         for target in keylist[turn_agent_check+1]:
             every_map1[target[0]][target[2] + target[1] * cols].text = f"T{turn_agent_check+1}"
