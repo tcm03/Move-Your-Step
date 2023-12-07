@@ -66,7 +66,8 @@ def level1_play(check):
     clock = pygame.time.Clock()
     font = pygame.font.SysFont('sans', FONTSIZE, True)
 
-
+    if not os.path.isdir("level1\heatmap"):
+        os.mkdir("level1\heatmap")
     class Cell:
         def __init__(self, x, y, text='0', color_intense=1):
             self.x, self.y = x, y

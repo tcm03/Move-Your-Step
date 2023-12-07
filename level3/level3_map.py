@@ -41,6 +41,9 @@ def level3_play(check):
 
     TILE = 25
     FONTSIZE = 15
+    
+    if not os.path.isdir("level3\heatmap"):
+        os.mkdir("level3\heatmap")
 
 
     class Cell:

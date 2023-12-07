@@ -171,6 +171,9 @@ def level4_play(check):
         current_path_list.append(0)
 
     num_steps = 0
+    
+    if not os.path.isdir("level4\heatmap"):
+        os.mkdir("level4\heatmap")
 
 
     agent_now = 0

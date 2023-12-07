@@ -8,27 +8,27 @@ from level1.level1_map import level1_play
 
 def option_choose1():
 
-    # Khởi tạo Pygame
+
     pygame.init()
 
-    # Thiết lập kích thước cửa sổ
+    
     screen = pygame.display.set_mode((800, 600))
 
-    # Tạo 5 nút bấm
+    
     buttons = [pygame.Rect(100 + i*120, 300, 100, 50) for i in range(5)]
     button_texts = ['A*', 'BFS', 'DFS','DIJKSTRA', 'Exit']
     button_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0),(0, 255, 255)]
 
 
-    # Tạo font chữ
+    
     font_button = pygame.font.Font(None, 24)
     font_title = pygame.font.Font(None, 72)
 
-    # Tạo chữ cho các nút và tiêu đề
+
     title = font_title.render('MOVE YOUR STEP', True, (0, 0, 0))
     button_labels = [font_button.render(text, True, (0, 0, 0)) for text in button_texts]
 
-
+    
 
     while True:
         for event in pygame.event.get():
