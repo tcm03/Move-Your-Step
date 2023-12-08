@@ -46,7 +46,7 @@ def dijkstra(school_map):
             continue
     # the destination is here!
         if school_map[x][y][0] == "T":
-            goal = (x, y, new_keyset)
+            goal = (x, y, keyset)
             break
         for x_offset, y_offset in [(0, 1), (1, 0), (0, -1), (-1, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)]:
             next_x, next_y = x + x_offset, y + y_offset
