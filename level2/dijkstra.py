@@ -40,8 +40,6 @@ def dijkstra(school_map):
     dist[start[0]][start[1]][start[2]] = 0
     goal = (-1, -1, -1)
     while len(Q) > 0:
-        if goal != (-1, -1, -1):
-            break
         d, (x, y, keyset) = heapq.heappop(Q) # pop the node with the smallest distance
         record_list.append((x,y))
         if d != dist[x][y][keyset]: # this node has already been processed
@@ -67,6 +65,17 @@ def dijkstra(school_map):
                         if school_map[u][v] == "-1":
                             valid = False
                             break
+                        if school_map[u][v][0] == "D":
+                            # check if the key is available
+                            num = int(school_map[u][v][1:])
+                            # this door has no corresponding key
+                            if num > num_keys:
+                                valid = False
+                                break
+                            # this door has a corresponding key, but the key is not available
+                            if keyset & (1 << (num-1)) == 0:
+                                valid = False
+                                break
                 if not valid:
                     continue
             if school_map[next_x][next_y][0] == "D":

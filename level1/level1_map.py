@@ -66,7 +66,8 @@ def level1_play(check):
     clock = pygame.time.Clock()
     font = pygame.font.SysFont('sans', FONTSIZE, True)
 
-
+    if not os.path.isdir("level1\heatmap"):
+        os.mkdir("level1\heatmap")
     class Cell:
         def __init__(self, x, y, text='0', color_intense=1):
             self.x, self.y = x, y
@@ -125,7 +126,7 @@ def level1_play(check):
 
         RES1 = WIDTH1, HEIGHT1
         sc1 = pygame.display.set_mode(RES1)
-        TILE = 25
+        
 
         dodai = 0
         if record_list is not None:
@@ -150,7 +151,6 @@ def level1_play(check):
         RES1 = WIDTH1, HEIGHT1
         sc1 = pygame.display.set_mode(RES1)
         sc1.fill(pygame.Color('white'))
-        TILE = 25
 
 
         [cell.draw(0 * 25, 0 * 25, sc1) for cell in need_draw_map]
@@ -175,6 +175,7 @@ def level1_play(check):
                 t = now.strftime("%Y_%m_%d_%H_%M_%S")
                 file_name = f'level1\heatmap\{t}\\'
                 os.mkdir(file_name)
+                TILE = 25
                 heat_map(record_list,N,M,map_game,file_name)
                 heat_map1(grid_cells,N, M, file_name)
                 pygame.display.set_mode((800, 600))

@@ -27,8 +27,6 @@ def dijkstra(school_map):
     dist[start[0]][start[1]] = 0
     goal = (-1, -1)
     while len(Q) > 0:
-        if goal != (-1, -1):
-            break
         d, (x, y) = heapq.heappop(Q) # pop the node with the smallest distance
         if d != dist[x][y]: # this node has already been processed
             continue
