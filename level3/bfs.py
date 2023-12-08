@@ -96,6 +96,17 @@ def breadth_first_search(school_map):
                         if school_map[f][u][v] == "-1":
                             valid = False
                             break
+                        if school_map[f][u][v][0] == "D" and school_map[f][u][v] != "DO":
+                            # check if the key is available
+                            num = int(school_map[f][u][v][1:])
+                            # this door has no corresponding key
+                            if num > num_keys:
+                                valid = False
+                                break
+                            # this door has a corresponding key, but the key is not available
+                            if keyset & (1 << (num-1)) == 0:
+                                valid = False
+                                break
                 if not valid:
                     continue
             if school_map[next_f][next_x][next_y][0] == "D" and school_map[next_f][next_x][next_y][1] != "O":

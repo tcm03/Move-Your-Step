@@ -130,7 +130,6 @@ def level2_play(check):
 
         RES1 = WIDTH1, HEIGHT1
         sc1 = pygame.display.set_mode(RES1)
-        TILE = 25
 
         dodai = 0
         if record_list is not None:
@@ -155,7 +154,7 @@ def level2_play(check):
         RES1 = WIDTH1, HEIGHT1
         sc1 = pygame.display.set_mode(RES1)
         sc1.fill(pygame.Color('white'))
-        TILE = 25
+        
 
 
         [cell.draw(0 * 25, 0 * 25, sc1) for cell in need_draw_map]
@@ -179,6 +178,7 @@ def level2_play(check):
                 t = now.strftime("%Y_%m_%d_%H_%M_%S")
                 file_name = f'level2\heatmap\{t}\\'
                 os.mkdir(file_name)
+                TILE = 25
                 heat_map(record_list,N,M,map_game,file_name)
                 heat_map1(grid_cells,N,M,file_name)
                 pygame.display.set_mode((800, 600))
