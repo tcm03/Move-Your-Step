@@ -35,6 +35,15 @@ def next_move(school_map, current):
                 continue
             if school_map[current_x + 0][current_y + y_offset] == '-1':
                 continue
+            # check if neighboring cells are doors
+            if school_map[current_x + 0][current_y + y_offset][0] == 'D':
+                key_number = int(school_map[current_x + 0][current_y + y_offset][1])
+                if current_key_set & (1 << (key_number - 1)) == 0:
+                    continue
+            if school_map[current_x + 0][current_y + y_offset][0] == 'D':
+                key_number = int(school_map[current_x + 0][current_y + y_offset][1])
+                if current_key_set & (1 << (key_number - 1)) == 0:
+                    continue
 
         if school_map[next_x][next_y][0] == "D":
             # check if the key is available
@@ -60,11 +69,14 @@ def a_star(school_map):
     start = (0, 0, 0)
     goal = (0, 0, 0)
 
+    # Find the highest key number and calculate total number of keys
     num_keys = 0
     for i in range(N):
         for j in range(M):
             if school_map[i][j][0] == "K":
                 num_keys = max(num_keys, int(school_map[i][j][1:]))
+
+    # Calculate the total number of possible key combinations
     K = 1 << num_keys
 
     for i in range(N):
@@ -74,6 +86,7 @@ def a_star(school_map):
             if school_map[i][j][0] == "T":
                 goal = (i, j, 0)  # start cell
 
+    # Initialize two data structures for backtracking and distance
     trace = []
     for i in range(N):
         arr = []
@@ -92,6 +105,8 @@ def a_star(school_map):
                 sub_arr.append(INF)
             arr.append(sub_arr)
         dist.append(arr)
+
+    # Set starting point distance to 0
     dist[start[0]][start[1]][start[2]] = 0
 
     frontier = PriorityQueue()
