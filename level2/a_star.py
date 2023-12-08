@@ -36,8 +36,8 @@ def next_move(school_map, current):
             if school_map[current_x + 0][current_y + y_offset] == '-1':
                 continue
             # check if neighboring cells are doors
-            if school_map[current_x + 0][current_y + y_offset][0] == 'D':
-                key_number = int(school_map[current_x + 0][current_y + y_offset][1])
+            if school_map[current_x + x_offset][current_y + 0][0] == 'D':
+                key_number = int(school_map[current_x + x_offset][current_y + 0][1])
                 if current_key_set & (1 << (key_number - 1)) == 0:
                     continue
             if school_map[current_x + 0][current_y + y_offset][0] == 'D':
