@@ -8,22 +8,17 @@ from level4.level4_map import level4_play
 
 def option_choose4():
 
-    # Khởi tạo Pygame
     pygame.init()
 
-    # Thiết lập kích thước cửa sổ
     screen = pygame.display.set_mode((800, 600))
 
-    # Tạo 5 nút bấm
     buttons = [pygame.Rect(280 + i*120, 300, 100, 50) for i in range(2)]
     button_texts = ['Start','Exit']
     button_colors = [(255, 0, 0), (0, 255, 0)]
-
-    # Tạo font chữ
+    
     font_button = pygame.font.Font(None, 24)
     font_title = pygame.font.Font(None, 72)
 
-    # Tạo chữ cho các nút và tiêu đề
     title = font_title.render('MOVE YOUR STEP', True, (0, 0, 0))
     button_labels = [font_button.render(text, True, (0, 0, 0)) for text in button_texts]
 
@@ -47,7 +42,6 @@ def option_choose4():
 
         screen.fill((255, 255, 255))
 
-        # Vẽ tiêu đề
         screen.blit(title, (200, 50))
 
         for idx, button in enumerate(buttons):
