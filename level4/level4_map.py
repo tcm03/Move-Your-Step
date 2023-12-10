@@ -337,7 +337,7 @@ def level4_play(check):
             num_step = font.render(f'number of steps: {num_steps}', True, (0, 0, 0))
             sc.blit(num_step, (scrollx * 25 + M * TILE + 10, scrolly * 25 + 50))
 
-            point = font.render(f"Points: {100 - num_steps}", True, (0, 0, 0))
+            point = font.render(f"Points: {100 - num_path_agent1}", True, (0, 0, 0))
             sc.blit(point, (scrollx * 25 + M * TILE + 10, scrolly * 25 + 70))
 
             memory_record = font.render(f"memory max: {round(peak / (1024 * 1024), 3)} MB", True, (0, 0, 0))
