@@ -16,7 +16,7 @@ def option_choose2():
 
    
     buttons = [pygame.Rect(100 + i*120, 300, 100, 50) for i in range(5)]
-    button_texts = ['A*', 'BFS', 'DFS','DIJKSTRA', 'Exit']
+    button_texts = ['A*', 'BFS', 'DFS','UCS', 'Exit']
     button_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0),(0, 255, 255)]
 
   
@@ -45,7 +45,7 @@ def option_choose2():
                             check = 2
                         if button_texts[idx] == 'DFS':
                             check = 3
-                        if button_texts[idx] == 'DIJKSTRA':
+                        if button_texts[idx] == 'UCS':
                             check = 4
                         if button_texts[idx] == 'Exit':
                             return True

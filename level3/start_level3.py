@@ -14,7 +14,7 @@ def option_choose3():
     screen = pygame.display.set_mode((800, 600))
 
     buttons = [pygame.Rect(180 + i*120, 300, 100, 50) for i in range(4)]
-    button_texts = ['DIJKSTRA', 'BFS', 'DFS', 'Exit']
+    button_texts = ['UCS', 'BFS', 'DFS', 'Exit']
     button_colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255), (255, 255, 0)]
 
     font_button = pygame.font.Font(None, 24)
@@ -35,7 +35,7 @@ def option_choose3():
                 for idx, button in enumerate(buttons):
                     check = 1
                     if button.collidepoint(mouse_pos):
-                        if button_texts[idx] == 'DIJKSTRA':
+                        if button_texts[idx] == 'UCS':
                             check = 1
                         if button_texts[idx] == 'BFS':
                             check = 2
